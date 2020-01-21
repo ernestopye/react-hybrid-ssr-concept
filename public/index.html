@@ -7,9 +7,13 @@
     <meta name="theme-color" content="#000000" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
 
     <!-- SEO -->
-    <title>Shirt</title>
+    <title>Plain Shirt</title>
     <meta
       name="description"
       content="The perfect shirt for giving talks on React"
@@ -23,30 +27,61 @@
       // similar to https://redux.js.org/recipes/server-rendering/
       window.__initial_state__ = {
         id: 1,
-        name: "Shirt",
-        selected: null
+        name: "Plain Shirt",
+        selected: null,
+        color: null
       };
     </script>
-
-    <!-- Layout 1 -->
-    <div id="product-images"></div>
-
-    <!-- h1 and description are important for SEO -->
-    <h1 id="product-title">Shirt</h1>
-    <p id="product-description">This is a shirt that is being sold.</p>
-    <div id="product-selections"></div>
-    <div id="product-price"></div>
-    <div id="product-add-to-cart"></div>
-
-    <!-- Layout 2 -->
-    <!-- <h1 id="product-title">Shirt</h1>
-    <div id="product-images"></div>
-    <p id="product-description">This is a shirt that is being sold.</p>
-    <div id="product-selections"></div>
-    <span id="product-add-to-cart"></span>
-    <span id="product-price"></span> -->
+    <div class="ui inverted top fixed menu">
+      <div class="ui container">
+        <a class="header item">EP's Clothing Store</a>
+        <a class="item">Shop by Category</a>
+      </div>
+    </div>
 
     <!-- app container, mostly irrelevant to the layout -->
     <div id="root"></div>
+
+    <!-- Layout 1 -->
+    <!-- <div id="product-images"></div> -->
+
+    <!-- h1 and description are important for SEO -->
+    <!-- <h1 id="product-title">Shirt</h1>
+    <p id="product-description">This is a shirt that is being sold.</p>
+    <div id="product-selections"></div>
+    <div id="product-price"></div>
+    <div id="product-add-to-cart"></div> -->
+
+    <!-- Layout 2 -->
+    <div class="ui container" style="margin-top: 5em">
+      <div class="ui two column grid">
+        <div class="row left">
+          <h1 class="ui blue header" id="product-title">
+            Plain Shirt
+          </h1>
+        </div>
+        <div class="four wide column centered">
+          <div id="product-images"></div>
+        </div>
+        <div class="four wide column centered">
+          <div id="product-selections"></div>
+          <br />
+          <span id="product-add-to-cart"></span>
+          <span id="product-price"></span>
+        </div>
+        <div class="row">
+          <p id="product-description">
+            This is a shirt that is being sold by us. It has 2 sleeves and comes
+            in a few basic colors and common sizes. It'll definitely wrinkle. I
+            mean, it's just a shirt, what did you expect? If you wash it a
+            bunch, it'll fade too, probably. But it'll totally fit, most of the
+            time.
+          </p>
+          <a href="https://www.vecteezy.com/free-vector/t-shirt"
+            >T Shirt Vectors by Vecteezy</a
+          >
+        </div>
+      </div>
+    </div>
   </body>
 </html>

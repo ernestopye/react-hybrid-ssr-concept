@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import ReactDOM from "react-dom";
-import "./App.css";
+import { Button, Form, Rating } from "semantic-ui-react";
 
 const __initial_state__ = window.__initial_state__ || null;
 const ProductContext = React.createContext(null);
@@ -47,9 +47,9 @@ function AddToCart() {
   }
 
   return ReactDOM.createPortal(
-    <button type="button" disabled={!product.selected}>
+    <Button primary disabled={!product.selected}>
       Add to Cart
-    </button>,
+    </Button>,
     addToCartElement
   );
 }
@@ -57,12 +57,16 @@ function AddToCart() {
 const imagesElement = document.getElementById("product-images");
 
 function Images() {
+  const {
+    product: { color }
+  } = useProductContext();
+
   if (!imagesElement) {
     return null;
   }
 
   return ReactDOM.createPortal(
-    <img src="shirt.png" alt="shirt" width={300} />,
+    <img src={color ? `${color}.png` : "red.png"} alt="shirt" width={200} />,
     imagesElement
   );
 }
@@ -77,12 +81,23 @@ function Price() {
   }
 
   return ReactDOM.createPortal(
-    <span>${product.selected.length.toFixed(2)}</span>,
+    <p style={{ fontSize: "2rem" }}>${product.selected.length.toFixed(2)}</p>,
     priceElement
   );
 }
 
 const selectionsElement = document.getElementById("product-selections");
+const COLORS = [
+  { key: "r", text: "Red", value: "red" },
+  { key: "g", text: "Green", value: "green" },
+  { key: "b", text: "Blue", value: "blue" }
+];
+
+const SIZES = [
+  { key: "s", text: "Small", value: "small" },
+  { key: "m", text: "Medium", value: "medium" },
+  { key: "l", text: "Large", value: "large" }
+];
 
 function Selections() {
   const { product, setProduct } = useProductContext();
@@ -94,15 +109,22 @@ function Selections() {
 
     let title = product.name;
 
-    if (color && size) {
-      title += ` (${size}, ${color})`;
+    setProduct({
+      ...product,
+      selected: color && size ? color + "-" + size : null,
+      color
+    });
 
-      setProduct({ ...product, selected: size + "-" + color });
-    } else {
-      setProduct({ ...product, selected: null });
+    if (titleElement && color && size) {
+      title += ` (${size}, ${color})`;
+      titleElement.innerText = title;
+
+      window.history.replaceState("", title, `/${color}-${size}-shirt`);
+      document.title = title;
+
+      // TODO: fake fetch, load description, update dom
     }
 
-    titleElement.innerText = title;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [color, size]);
 
@@ -111,23 +133,27 @@ function Selections() {
   }
 
   return ReactDOM.createPortal(
-    <div>
-      <label for="size">Size: </label>
-      <select id="size" value={size} onChange={e => setSize(e.target.value)}>
-        <option value="">-- select --</option>
-        <option>Small</option>
-        <option>Medium</option>
-        <option>Large</option>
-      </select>
+    <>
+      <Form.Select
+        fluid
+        value={color}
+        onChange={(_, { value }) => setColor(value)}
+        options={COLORS}
+        label="Color:"
+        placeholder="-- select --"
+      />
       <br />
-      <label for="color">Color: </label>
-      <select id="color" value={color} onChange={e => setColor(e.target.value)}>
-        <option value="">-- select --</option>
-        <option>Red</option>
-        <option>Green</option>
-        <option>Blue</option>
-      </select>
-    </div>,
+      <Form.Select
+        fluid
+        value={size}
+        onChange={(_, { value }) => {
+          setSize(value);
+        }}
+        options={SIZES}
+        label="Size:"
+        placeholder="-- select --"
+      />
+    </>,
     selectionsElement
   );
 }
