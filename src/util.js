@@ -1,3 +1,31 @@
+import React, { useContext } from "react";
+
+export const ProductContext = React.createContext(null);
+export function useProductContext() {
+    const context = useContext(ProductContext);
+
+    if (!context) {
+        console.error(
+            "Unable to find product context. This component must be nested under <ProductContext.Provider />."
+        );
+        return null;
+    }
+
+    return context;
+}
+
+export const COLORS = [
+    { key: "r", text: "Red", value: "red" },
+    { key: "g", text: "Green", value: "green" },
+    { key: "b", text: "Blue", value: "blue" }
+];
+
+export const SIZES = [
+    { key: "s", text: "Small", value: "small" },
+    { key: "m", text: "Medium", value: "medium" },
+    { key: "l", text: "Large", value: "large" }
+];
+
 // fake fetch. pretend this is loading additional data from some backend service
 export function fetchChildProductData({ color, size }) {
     return new Promise(resolve => {
